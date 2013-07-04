@@ -1,0 +1,19 @@
+{
+  "name": "mbta-alerts-2",
+  "version": "2.0.0",
+  "description": "MBTA Alerts ===========",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codeforboston/mbta-alerts-2.git"
+  },
+  "author": "FellowMD",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "oauth": "~0.9.10"
+  }
+}
