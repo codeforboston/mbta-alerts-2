@@ -1,11 +1,43 @@
-var tweet = require('./tweet');
 
-setInterval( function(){
-	console.log('checking...');
-	if(! (new Date().getMinutes() % 15)) { //only tweet on the quarter hour
-		var status = 'The time is ' + new Date().toLocaleTimeString();
-		console.log('tweeting!');
-		console.log(status);
-		tweet(status);
-	}
-}, 1000 * 59); // check every min
+/**
+ * Module dependencies.
+ */
+
+var express = require('express')
+  , http = require('http')
+  , path = require('path');
+
+var app = express();
+
+// all environments
+app.set('port', process.env.PORT || 3000);
+//app.set('views', __dirname + '/views');
+//app.set('view engine', 'jade');
+app.use(express.favicon());
+app.use(express.logger('dev'));
+app.use(express.bodyParser());
+app.use(express.methodOverride());
+app.use(app.router);
+//app.use(express.static(path.join(__dirname, 'public')));
+
+// development only
+if ('development' == app.get('env')) {
+  app.use(express.errorHandler());
+}
+
+var profile_url;
+
+app.get('*', function(request, response){
+  if (profile_url)
+    response.redirect(profile_url);
+  else {
+    require('./get-profile-url')(function(error, url){
+      profile_url = url;
+      response.redirect(url);
+    });
+  }
+});
+
+http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
+});
